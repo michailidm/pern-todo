@@ -49,30 +49,30 @@ app.get("/todos/:id", async (req, res) => {
 });
 
 // update a todo
-app.put("/todos/:id/edit", async (req, res) => {
+app.put("/todos/:id", async (req, res) => {
     try {
         const { id } = req.params;
         const { description } = req.body;
-        const updatedTodo = await pool.query(
-            "UPDATE todo SET description = $1 WHERE todo_id = $2 RETURNING *", 
+        const updateTodo = await pool.query(
+            "UPDATE todo SET description = $1 WHERE todo_id = $2", 
             [description, id]
         );
 
-        res.json(updatedTodo.rows[0]);
+        res.json("Todo was updated!");
     } catch (err) {
         console.log(err.message);
     }
 });
 
 // delete a todo
-app.delete("/todos/:id/delete", async (req, res) => {
+app.delete("/todos/:id", async (req, res) => {
     try {
         const { id } = req.params;
-        const deletedTodo = await pool.query(
-            "DELETE FROM todo WHERE todo_id = $1 RETURNING *", 
+        const deleteTodo = await pool.query(
+            "DELETE FROM todo WHERE todo_id = $1", 
             [id]
         );
-        res.json(deletedTodo.rows[0]);
+        res.json("Todo was deleted!");
     } catch (err) {
         console.log(err.message);
     }
